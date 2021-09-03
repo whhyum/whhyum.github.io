@@ -1,0 +1,208 @@
+<!DOCTYPE html><html lang="zh_CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>关于Webpack | whh's Blog</title><meta name="author" content="whh"><meta name="copyright" content="whh"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Webpack (base)webpack与gulp的区别webpack与gulp最大的区别就是在于打包过程上有所不同 Grunt、Gulp 这类构建工具的打包过程是通过遍历源文件 &#x3D;&gt; 匹配规则 &#x3D;&gt; 打包，整个过程是基于文件流的打包方式且做不到按需加载。 webpack 是从入口文件开始，把相关模块引入通过加载模块 &#x3D;&gt; 解析模块 &#x3D;&gt; 打包，整个过程是基于模块化的打包">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于Webpack">
+<meta property="og:url" content="http://example.com/2021/09/03/webpack/index.html">
+<meta property="og:site_name" content="whh&#39;s Blog">
+<meta property="og:description" content="Webpack (base)webpack与gulp的区别webpack与gulp最大的区别就是在于打包过程上有所不同 Grunt、Gulp 这类构建工具的打包过程是通过遍历源文件 &#x3D;&gt; 匹配规则 &#x3D;&gt; 打包，整个过程是基于文件流的打包方式且做不到按需加载。 webpack 是从入口文件开始，把相关模块引入通过加载模块 &#x3D;&gt; 解析模块 &#x3D;&gt; 打包，整个过程是基于模块化的打包">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://z3.ax1x.com/2021/09/02/hrCElR.jpg">
+<meta property="article:published_time" content="2021-09-03T02:01:59.994Z">
+<meta property="article:modified_time" content="2021-09-03T06:21:42.326Z">
+<meta property="article:author" content="whh">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://z3.ax1x.com/2021/09/02/hrCElR.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2021/09/03/webpack/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '关于Webpack',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-09-03 14:21:42'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://z3.ax1x.com/2021/09/02/hDvyX8.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">5</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://z3.ax1x.com/2021/09/02/hrCElR.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">whh's Blog</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">关于Webpack</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2021-09-03T02:01:59.994Z" title="Created 2021-09-03 10:01:59">2021-09-03</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2021-09-03T06:21:42.326Z" title="Updated 2021-09-03 14:21:42">2021-09-03</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="关于Webpack"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="Webpack-base"><a href="#Webpack-base" class="headerlink" title="Webpack (base)"></a>Webpack (base)</h1><h2 id="webpack与gulp的区别"><a href="#webpack与gulp的区别" class="headerlink" title="webpack与gulp的区别"></a>webpack与gulp的区别</h2><p>webpack与gulp最大的区别就是在于打包过程上有所不同</p>
+<p>Grunt、Gulp 这类构建工具的打包过程是通过遍历源文件 =&gt; 匹配规则 =&gt; 打包，整个过程是基于文件流的打包方式且做不到按需加载。</p>
+<p>webpack 是从入口文件开始，把相关模块引入通过加载模块 =&gt; 解析模块 =&gt; 打包，整个过程是基于模块化的打包方式且支持<strong>按需加载</strong>，同时还可以在执行过程中针对性的去做一些优化操作。</p>
+<h3 id="核心打包原理"><a href="#核心打包原理" class="headerlink" title="核心打包原理"></a>核心打包原理</h3><ol>
+<li>需要读到入口文件里面的内容。</li>
+<li>分析入口文件，递归的去读取模块所依赖的文件内容，生成AST语法树。</li>
+<li>根据AST语法树，生成浏览器能够运行的代码</li>
+</ol>
+<h2 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h2><ul>
+<li><p>打包：将不同类型资源按模块处理进行打包</p>
+</li>
+<li><p>静态：打包后最终产出的静态资源</p>
+</li>
+<li><p>模块：webpack支持不同规范模块化开发</p>
+</li>
+</ul>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><ul>
+<li><p>入口文件：（默认）src =&gt; index.js</p>
+</li>
+<li><p>package.js: </p>
+<ul>
+<li><p>引入path转换绝对路径</p>
+</li>
+<li><p>修改配置路径(…config.js):</p>
+</li>
+<li><p>```json<br>“build”: “webpack –config XX.config.js”</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">## 关于 loader</span><br><span class="line"></span><br><span class="line">```js</span><br><span class="line">ERROR in ./webpack_test/src/css/login.css 1:0</span><br><span class="line">Module parse failed: Unexpected token (1:0)</span><br><span class="line">You may need an appropriate loader to handle this file type, currently no loaders are configured to process this file. See https://webpack.js.org/concepts#loaders</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<p>以上是webpack处理css未导入对应loader时的情况</p>
+<h3 id="webpack4-："><a href="#webpack4-：" class="headerlink" title="webpack4 ："></a>webpack4 ：</h3><ol>
+<li>行内loader</li>
+<li>配置文件loader</li>
+<li>命令行loader</li>
+</ol>
+<h3 id="webpack5："><a href="#webpack5：" class="headerlink" title="webpack5："></a>webpack5：</h3><p>行内、配置文件</p>
+<p><u><strong>loader执行顺序：从下往上、从右往左</strong></u></p>
+<h3 id="CSS-loader"><a href="#CSS-loader" class="headerlink" title="CSS-loader"></a>CSS-loader</h3><p>需要先执行CSS-loader 再执行style-loader</p>
+<h3 id="less-loader"><a href="#less-loader" class="headerlink" title="less-loader"></a>less-loader</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i less less-loader -d</span><br></pre></td></tr></table></figure>
+
+
+
+<p><em>安装less-loader的时候必须安装less,才可以正常工作,光有less-loader不能正确加载less文件</em></p>
+<h2 id="关于browserslistrc"><a href="#关于browserslistrc" class="headerlink" title="关于browserslistrc"></a>关于browserslistrc</h2><h3 id="关于前端工程化"><a href="#关于前端工程化" class="headerlink" title="关于前端工程化"></a>关于前端工程化</h3><ul>
+<li>工程化</li>
+<li>兼容性：CSS JS</li>
+<li>如何实现兼容？</li>
+<li>兼容的哪些平台？ 参考 <a href="%E5%85%BC%E5%AE%B9">caniuse.com</a> 、<a href="%E5%85%BC%E5%AE%B9%E6%AF%94%E4%BE%8B">https://caniuse.com/usage-table</a></li>
+</ul>
+<h3 id="配置-–筛选兼容的平台"><a href="#配置-–筛选兼容的平台" class="headerlink" title="配置 –筛选兼容的平台"></a>配置 –筛选兼容的平台</h3><p>.browserslistrc </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;<span class="number">1</span>% <span class="comment">// 兼容市场占有率大于1%的平台</span></span><br><span class="line">last <span class="number">2</span> version <span class="comment">//最新的两个版本</span></span><br><span class="line">not dead</span><br></pre></td></tr></table></figure>
+
+<p>接着进行兼容产出</p>
+<p><em>兼容产出css网站 ：<a href="">autoprefixer.github.io</a></em></p>
+<h2 id="关于-postcss"><a href="#关于-postcss" class="headerlink" title="关于-postcss"></a>关于-postcss</h2><ol>
+<li>利用js转换样式的工具</li>
+<li>less(less-loader) =&gt; css =&gt; css-loader</li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">whh</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://example.com/2021/09/03/webpack/">http://example.com/2021/09/03/webpack/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://z3.ax1x.com/2021/09/02/hrCElR.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2021/09/03/css/"><img class="next-cover" src="https://z3.ax1x.com/2021/09/02/hrCElR.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">CSS</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://z3.ax1x.com/2021/09/02/hDvyX8.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">whh</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">5</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Webpack-base"><span class="toc-number">1.</span> <span class="toc-text">Webpack (base)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#webpack%E4%B8%8Egulp%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">1.1.</span> <span class="toc-text">webpack与gulp的区别</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E6%89%93%E5%8C%85%E5%8E%9F%E7%90%86"><span class="toc-number">1.1.1.</span> <span class="toc-text">核心打包原理</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%9F%E8%83%BD"><span class="toc-number">1.2.</span> <span class="toc-text">功能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE"><span class="toc-number">1.3.</span> <span class="toc-text">配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#webpack4-%EF%BC%9A"><span class="toc-number">1.3.1.</span> <span class="toc-text">webpack4 ：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#webpack5%EF%BC%9A"><span class="toc-number">1.3.2.</span> <span class="toc-text">webpack5：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CSS-loader"><span class="toc-number">1.3.3.</span> <span class="toc-text">CSS-loader</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#less-loader"><span class="toc-number">1.3.4.</span> <span class="toc-text">less-loader</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8Ebrowserslistrc"><span class="toc-number">1.4.</span> <span class="toc-text">关于browserslistrc</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96"><span class="toc-number">1.4.1.</span> <span class="toc-text">关于前端工程化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE-%E2%80%93%E7%AD%9B%E9%80%89%E5%85%BC%E5%AE%B9%E7%9A%84%E5%B9%B3%E5%8F%B0"><span class="toc-number">1.4.2.</span> <span class="toc-text">配置 –筛选兼容的平台</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E-postcss"><span class="toc-number">1.5.</span> <span class="toc-text">关于-postcss</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2021/09/03/webpack/" title="关于Webpack">关于Webpack</a><time datetime="2021-09-03T02:01:59.994Z" title="Created 2021-09-03 10:01:59">2021-09-03</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2021/09/03/css/" title="CSS">CSS</a><time datetime="2021-09-03T01:35:42.856Z" title="Created 2021-09-03 09:35:42">2021-09-03</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2021/09/03/vue/" title="Vue 源码">Vue 源码</a><time datetime="2021-09-03T01:35:04.513Z" title="Created 2021-09-03 09:35:04">2021-09-03</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2021/09/02/spring/" title="Spring 源码与设计模式">Spring 源码与设计模式</a><time datetime="2021-09-02T05:26:27.473Z" title="Created 2021-09-02 13:26:27">2021-09-02</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2021/09/02/hello-world/" title="Hello World">Hello World</a><time datetime="2021-09-02T03:36:32.778Z" title="Created 2021-09-02 11:36:32">2021-09-02</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://z3.ax1x.com/2021/09/02/hrCElR.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By whh</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
